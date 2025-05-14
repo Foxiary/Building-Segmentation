@@ -12,6 +12,28 @@ quá trình huấn luyện, các chỉ số IoU và Dice được theo dõi sát
 so với nền, hứa hẹn khả năng ứng dụng trong quá trình quy hoạch một cách
 chính xác, giảm thiểu sai sót.
 
+**LỜI CẢM ƠN**
+
+Trong suốt thời gian làm đồ án tốt nghiệp, chúng em đã luôn nhận được
+nhiều sự quan tâm, hướng dẫn và giúp đỡ tận tình của các thầy cô giáo
+trong khoa Công nghệ thông tin cùng với sự động viên giúp đỡ từ bạn bè
+và gia đình.
+
+Lời đầu tiên em xin chân thành cảm ơn Ban giám hiệu Trường Đại học Công
+nghiệp thành phố Hồ Chí Minh, Ban chủ nhiệm khoa Công nghệ thông tin đã
+luôn tận tình quan tâm giúp đỡ chúng em trong suốt thời gian học tập tại
+trường.
+
+Đặc biệt chúng em xin gửi lời cảm ơn chân thành và sâu sắc tới thầy
+hướng dẫn ThS. Võ Quang Hoàng Khang đã trực tiếp hướng dẫn, giúp đỡ
+chúng em hoàn thành khoá luận này.
+
+Chúng em cũng xin gửi lời cảm ơn đến gia đình, người thân và bạn bè đã
+luôn ở bên quan tâm, giúp đỡ và động viên chúng em hoàn thành khoá luận
+tốt nghiệp này.
+
+Chúng em xin trân trọng cảm ơn!
+
 **LỜI MỞ ĐẦU**
 
 Trong bối cảnh đô thị hóa và phát triển hạ tầng ngày càng nhanh, việc
@@ -33,6 +55,165 @@ mô hình, đến huấn luyện và đánh giá bằng các chỉ số chuyên 
 và hệ số Dice. Kết quả thực nghiệm minh chứng hiệu quả của phương pháp,
 đồng thời đưa ra gợi ý cho các cải tiến tiếp theo nhằm phục vụ tốt hơn
 cho các ứng dụng đô thị thông minh.
+
+**MỤC LỤC**
+
+[**CHƯƠNG 1.** **TỔNG QUAN**
+[1](#chương-1.-tổng-quan)](#chương-1.-tổng-quan)
+
+[**1.1 Lý do chọn đề tài** [1](#lý-do-chọn-đề-tài)](#lý-do-chọn-đề-tài)
+
+[**1.2 Mục tiêu nghiên cứu**
+[2](#mục-tiêu-nghiên-cứu)](#mục-tiêu-nghiên-cứu)
+
+[**1.3 Phạm vi nghiên cứu**
+[2](#phạm-vi-nghiên-cứu)](#phạm-vi-nghiên-cứu)
+
+[**1.4 Phương pháp nghiên cứu**
+[2](#phương-pháp-nghiên-cứu)](#phương-pháp-nghiên-cứu)
+
+[**1.5 Kết cấu đồ án.** [4](#kết-cấu-đồ-án.)](#kết-cấu-đồ-án.)
+
+[**CHƯƠNG 2. CƠ SỞ LÝ THUYẾT**
+[5](#chương-2.-cơ-sở-lý-thuyết)](#chương-2.-cơ-sở-lý-thuyết)
+
+[**2.1. Học sâu (Deep learning)**
+[5](#học-sâu-deep-learning)](#học-sâu-deep-learning)
+
+[**2.2. Kỹ thuật nhóm tích chập (Grouped Convolution)**
+[5](#kỹ-thuật-nhóm-tích-chập-grouped-convolution)](#kỹ-thuật-nhóm-tích-chập-grouped-convolution)
+
+[**1. Squeeze:** [6](#_Toc197887789)](#_Toc197887789)
+
+[**2. Excitation:** [6](#_Toc197887790)](#_Toc197887790)
+
+[**3. Scale:** [6](#_Toc197887791)](#_Toc197887791)
+
+[**2.4. Các phương pháp đánh giá mô hình**
+[7](#các-phương-pháp-đánh-giá-mô-hình)](#các-phương-pháp-đánh-giá-mô-hình)
+
+[**1. Độ chính xác (Accuracy)**
+[7](#độ-chính-xác-accuracy)](#độ-chính-xác-accuracy)
+
+[**2**. **Precision (Độ chính xác dự đoán dương)**
+[7](#precision-độ-chính-xác-dự-đoán-dương)](#precision-độ-chính-xác-dự-đoán-dương)
+
+[**3. Recall (Độ nhạy)** [8](#recall-độ-nhạy)](#recall-độ-nhạy)
+
+[**4.F1-Score** [8](#f1-score)](#f1-score)
+
+[**5. AUC-ROC (Area Under Curve - Receiver Operating Characteristic)**
+[8](#auc-roc-area-under-curve---receiver-operating-characteristic)](#auc-roc-area-under-curve---receiver-operating-characteristic)
+
+[**6. Specificity (Độ đặc hiệu)**
+[9](#specificity-độ-đặc-hiệu)](#specificity-độ-đặc-hiệu)
+
+[**CHƯƠNG 3. MÔ HÌNH ĐỀ XUẤT**
+[10](#chương-3.-mô-hình-đề-xuất)](#chương-3.-mô-hình-đề-xuất)
+
+[**3.1 Mô hình tổng quát** [10](#mô-hình-tổng-quát)](#mô-hình-tổng-quát)
+
+[**3.2 Đặc trưng của mô hình đề xuất**
+[11](#đặc-trưng-của-mô-hình-đề-xuất)](#đặc-trưng-của-mô-hình-đề-xuất)
+
+[**3.3  Skip Connections -- Cầu nối thông tin**
+[13](#_Toc197887802)](#_Toc197887802)
+
+[**CHƯƠNG 4. THỰC NGHIỆM**
+[14](#chương-4.-thực-nghiệm)](#chương-4.-thực-nghiệm)
+
+[**4.1 Môi trường thực nghiệm**
+[14](#môi-trường-thực-nghiệm)](#môi-trường-thực-nghiệm)
+
+[**4.1.1. Cấu hình phần cứng**
+[14](#cấu-hình-phần-cứng)](#cấu-hình-phần-cứng)
+
+[**4.1.2. Cấu hình phần mềm**
+[14](#cấu-hình-phần-mềm)](#cấu-hình-phần-mềm)
+
+[**4.1.3. Thiết lập môi trường**
+[14](#thiết-lập-môi-trường)](#thiết-lập-môi-trường)
+
+[**4.1.4. Lý do chọn Kaggle**
+[15](#lý-do-chọn-kaggle)](#lý-do-chọn-kaggle)
+
+[**4.2 Tập dữ liệu** [15](#tập-dữ-liệu)](#tập-dữ-liệu)
+
+[**4.2.1  Nguồn dữ liệu** [15](#_Toc197887810)](#_Toc197887810)
+
+[**4.2.3. Tiền xử lý dữ liệu**
+[16](#tiền-xử-lý-dữ-liệu)](#tiền-xử-lý-dữ-liệu)
+
+[**4.2.4. Tăng cường dữ liệu**
+[17](#tăng-cường-dữ-liệu)](#tăng-cường-dữ-liệu)
+
+[**4.2.5. Chia dữ liệu** [17](#chia-dữ-liệu)](#chia-dữ-liệu)
+
+[**4.2.6. Lý do chọn tập dữ liệu**
+[18](#lý-do-chọn-tập-dữ-liệu)](#lý-do-chọn-tập-dữ-liệu)
+
+[**4.3 Ứng dụng thực nghiệm**
+[18](#ứng-dụng-thực-nghiệm)](#ứng-dụng-thực-nghiệm)
+
+[**4.3.1. Quy trình huấn luyện mô hình**
+[18](#quy-trình-huấn-luyện-mô-hình)](#quy-trình-huấn-luyện-mô-hình)
+
+[**4.3.2. Cấu hình huấn luyện**
+[18](#cấu-hình-huấn-luyện)](#cấu-hình-huấn-luyện)
+
+[**~~4.3.3. Kết quả thực nghiệm~~**
+[19](#kết-quả-thực-nghiệm)](#kết-quả-thực-nghiệm)
+
+[**4.4 Đánh giá kết quả** [22](#đánh-giá-kết-quả)](#đánh-giá-kết-quả)
+
+[**4.4.1. So sánh với các mô hình pretrain**
+[22](#so-sánh-với-các-mô-hình-pretrain)](#so-sánh-với-các-mô-hình-pretrain)
+
+[**4.4.2 So sánh với các mô hình khi thay đổi các khối**
+[24](#so-sánh-với-các-mô-hình-khi-thay-đổi-các-khối)](#so-sánh-với-các-mô-hình-khi-thay-đổi-các-khối)
+
+[**4.4.3 So sánh với mô hình gốc**
+[26](#so-sánh-với-mô-hình-gốc)](#so-sánh-với-mô-hình-gốc)
+
+[**CHƯƠNG 5. KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN**
+[28](#chương-5.-kết-luận-và-hướng-phát-triển)](#chương-5.-kết-luận-và-hướng-phát-triển)
+
+[**5.1 Kết luận** [28](#kết-luận)](#kết-luận)
+
+[**5.2 Hướng phát triển** [28](#hướng-phát-triển)](#hướng-phát-triển)
+
+**MỤC LỤC HÌNH ẢNH**
+
+[Hình 1. Kiến trúc mô hình [11](#_Toc184148871)](#_Toc184148871)
+
+[Hình 2. Độ chính xác trong quá trình huấn luyện
+[27](#_Toc184148872)](#_Toc184148872)
+
+[Hình 3. Loss trong quá trình huấn luyện
+[27](#_Toc184148873)](#_Toc184148873)
+
+[Hình 4. Ma trận nhầm lẫn của mô hình đề xuất
+[28](#_Toc184148874)](#_Toc184148874)
+
+[Hình 5. Biểu đồ so sánh số liệu các mô hình phổ biến với mô hình đề
+xuất [29](#_Toc184148875)](#_Toc184148875)
+
+[Hình 6. Biểu đồ so sánh số liệu các mô hình thay đổi khối khác với mô
+hình đề xuất [32](#_Toc184148876)](#_Toc184148876)
+
+**MỤC LỤC BẢNG BIỂU**
+
+[Bảng 1. Các phương pháp và tham số tăng cường dữ liệu
+[24](#_Toc184207958)](#_Toc184207958)
+
+[Bảng 2. Kết quả thử nghiệm và xác thực chéo của mô hình đề xuất
+[26](#_Toc184149077)](#_Toc184149077)
+
+[Bảng 3. So sánh các tiêu chí đánh giá của mô hình đề xuất với các biến
+thể của nó [31](#_Toc184207960)](#_Toc184207960)
+
+[Bảng 4: So sánh các tiêu chí đánh giá của mô hình gốc với mô hình đề
+xuất [33](#_Toc184207961)](#_Toc184207961)
 
 **DANH MỤC CÁC THUẬT NGỮ VIẾT TẮT**
 
